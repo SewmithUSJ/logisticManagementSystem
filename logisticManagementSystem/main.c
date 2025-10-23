@@ -1,18 +1,31 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
+
+#define MAX_CITIES 30
+#define MAX_NAME_SIZE 10
 
 //Functions
 void printMenu();
+int cityManagement(int cityId[],int cityCount,char cityNames[][MAX_NAME_SIZE]);
+int addCity(int cityId[],int cityCount,char cityNames[][MAX_NAME_SIZE]);
+void printCity(int cityId[],int cityCount,char cityNames[][MAX_NAME_SIZE]);
+void renameCity(int cityCount,char cityNames[][MAX_NAME_SIZE]);
+void removeCity(int cityId[],int cityCount,char cityNames[][MAX_NAME_SIZE]);
+void nameStucture(char name[]);
 
 int main()
 {
-    int choice;
+    int choice,cityId[MAX_CITIES]={},cityCount=0;
+    char cityNames[MAX_CITIES][MAX_NAME_SIZE]={};
+
     do{
         printMenu();
         scanf("%d",&choice);
         switch(choice)
         {
-            case 1:break;
+            case 1:
+                cityCount=cityManagement(cityId,cityCount,cityNames);break;
             case 2:break;
             case 3:break;
             case 4:break;
@@ -29,6 +42,7 @@ int main()
     }while(choice!=10);
     return 0;
 }
+
 void printMenu()
 {
     printf("=====Logistics Management System=====\n\n");
@@ -44,4 +58,96 @@ void printMenu()
     printf("10.Exit\n\n");
     printf("======================================\n\n");
     printf("Enter your choice : ");
+}
+
+int cityManagement(int cityId[],int cityCount,char cityNames[][MAX_NAME_SIZE])
+{
+    int choice;
+    do{
+        printf("===City Management===\n");
+        printf("1.Add City\n");
+        printf("2.Print City List\n");
+        printf("3.Rename City\n");
+        printf("4.Remove City\n");
+        printf("5.Exit\n");
+        printf("=====================\n\n");
+        printf("Enter your choice : ");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1:
+                cityCount=addCity(cityId,cityCount,cityNames);break;
+            case 2:
+                printCity(cityId,cityCount,cityNames);break;
+            case 3:
+                renameCity(cityCount,cityNames);break;
+            case 4:
+                removeCity(cityId,cityCount,cityNames);break;
+            case 5:
+                printf("\n    Thank You!\n");break;
+            default:
+                printf("\n    Invalid Input\n\n");
+        }
+    }while(choice!=5);
+    return cityCount;
+}
+int addCity(int cityId[],int cityCount,char cityNames[][MAX_NAME_SIZE])
+{
+    printf("\nEnter City name : ");
+    scanf("%s",cityNames[cityCount]);
+    nameStucture(cityNames[cityCount]);
+    cityId[cityCount]=cityCount+1;
+    cityCount+=1;
+    return cityCount;
+}
+void printCity(int cityId[],int cityCount,char cityNames[][MAX_NAME_SIZE])
+{
+    printf("\n=====City list=====\n\n");
+    printf("Id City names\n");
+    for(int i=0;i<cityCount;i++)
+    {
+        printf("0%d %s\n",cityId[i],cityNames[i]);
+    }
+}
+void renameCity(int cityCount,char cityNames[][MAX_NAME_SIZE])
+{
+    int id;
+    printf("Enter Rename city id : ");
+    scanf("%d",&id);
+    if(id>=cityCount)
+    {
+        printf("Invalid input!\n");
+    }else{
+        printf("\nEnter City new name : ");
+        scanf("%s",cityNames[id-1]);
+        nameStucture(cityNames[id-1]);
+    }
+    printf("Rename city successfully!\n");
+}
+void removeCity(int cityId[],int cityCount,char cityNames[][MAX_NAME_SIZE])
+{
+    int id;
+    printf("Enter Remove city id : ");
+    scanf("%d",&id);
+    if(id>=cityCount)
+    {
+        printf("Invalid input!\n");
+    }else{
+        for(int i=id;i<cityCount;i++)
+        {
+            for(int j=0;cityNames[i][j]!='\0';j++)
+            {
+                cityNames[i][j]=cityNames[i+1][j];
+            }
+        }
+    }
+    printf("Remove city successfully!\n");
+}
+void nameStucture(char name[])
+{
+    name[0]=toupper(name[0]);
+    for(int i=1;name[i]!='\0';i++)
+    {
+        name[i]=tolower(name[i]);
+    }
 }
