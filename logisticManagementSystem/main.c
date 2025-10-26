@@ -19,6 +19,7 @@ void addCityDistance(int cityCount,int distance[][MAX_CITIES]);
 void printCityDistance(int cityCount,int cityId[],int distance[][MAX_CITIES],char cityName[][MAX_NAME_SIZE]);
 void vehicaleManagement();
 int deliveryManagement(int cityCount,char cityName[][MAX_NAME_SIZE],int distance[][MAX_CITIES],int vehicaleDetails[][4],int deliveryCount,int deliveryRecodes[][12]);
+void calculation(int deliveryNumber,int deliveryRecodes[][12],int vehicaleDetails[][4]);
 
 int main()
 {
@@ -300,7 +301,7 @@ int deliveryManagement(int cityCount,char cityName[][MAX_NAME_SIZE],int distance
             printf("\n    Invalid Input\n\n");
         }
     }while(vehicalType!=1||vehicalType!=2||vehicalType!=3);
-    if(weight>vehicaleDetails[vehicalType-1][1])
+    if(weight>vehicaleDetails[vehicalType-1][0])
     {
         printf("The entered weight cannot be transported by the given type of transport.we can't continue this oder!\n\n");
     }
@@ -318,13 +319,32 @@ int deliveryManagement(int cityCount,char cityName[][MAX_NAME_SIZE],int distance
             deliveryRecodes[49][2]=weight;
             deliveryRecodes[49][3]=vehicalType;
             deliveryRecodes[49][4]=distance[sourceCity][destinationCity];
+            calculation(49,deliveryRecodes,vehicaleDetails);
     }else{
         deliveryRecodes[deliveryCount][0]=sourceCity;
         deliveryRecodes[deliveryCount][1]=destinationCity;
         deliveryRecodes[deliveryCount][2]=weight;
         deliveryRecodes[deliveryCount][3]=vehicalType;
         deliveryRecodes[deliveryCount][4]=distance[sourceCity][destinationCity];
+        calculation(deliveryCount,deliveryRecodes,vehicaleDetails);
     }
     deliveryCount+=1;
     return deliveryCount;
+}
+void calculation(int deliveryNumber,int deliveryRecodes[][12],int vehicaleDetails[][4])
+{
+    //Calc cost
+    deliveryRecodes[deliveryNumber][5]=deliveryRecodes[deliveryNumber][4]*vehicaleDetails[deliveryRecodes[deliveryNumber][3]][1]*(1+deliveryRecodes[deliveryNumber][2]/10000);
+    //Calc astimate time
+    deliveryRecodes[deliveryNumber][6]=deliveryRecodes[deliveryNumber][4]/vehicaleDetails[deliveryRecodes[deliveryNumber][3]][2];
+    //calc fuel consumption
+    deliveryRecodes[deliveryNumber][7]=deliveryRecodes[deliveryNumber][4]/vehicaleDetails[deliveryRecodes[deliveryNumber][3]][3];
+    //fuel cost
+    deliveryRecodes[deliveryNumber][8]=deliveryRecodes[deliveryNumber][7]*310;
+    //total operation cost
+    deliveryRecodes[deliveryNumber][9]=deliveryRecodes[deliveryNumber][8]+deliveryRecodes[deliveryNumber][5];
+    //calc profit
+    deliveryRecodes[deliveryNumber][10]=deliveryRecodes[deliveryNumber][9]*0.25;
+    //Final charge
+    deliveryRecodes[deliveryNumber][11]=deliveryRecodes[deliveryNumber][10]+deliveryRecodes[deliveryNumber][9];
 }
