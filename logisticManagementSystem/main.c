@@ -60,12 +60,10 @@ void printMenu()
     printf("1.City Management\n");
     printf("2.Distance Management\n");
     printf("3.Vehicle Management\n");
-    printf("4.Delivery Management\n");
-    printf("5.Cost,Time and Fuel Calculations\n");
-    printf("6.Delivery Records\n");
-    printf("7.Find the least-cost route\n");
-    printf("8.Performance Reports\n");
-    printf("9.File Handling\n");
+    printf("4.Delivery Oder\n");
+    printf("5.Delivery Records\n");
+    printf("6.Performance Reports\n");
+    printf("7.File Handling\n");
     printf("10.Exit\n\n");
     printf("======================================\n\n");
     printf("Enter your choice : ");
@@ -304,7 +302,7 @@ int deliveryManagement(int cityCount,char cityName[][MAX_NAME_SIZE],int distance
     }while(vehicalType!=1||vehicalType!=2||vehicalType!=3);
     if(weight>vehicaleDetails[vehicalType-1][1])
     {
-        printf("The entered weight cannot be transported by the given typeï¿½ofï¿½transport.we can't continue this oder!\n\n");
+        printf("The entered weight cannot be transported by the given type of transport.we can't continue this oder!\n\n");
     }
     if(deliveryCount>=50)
     {
