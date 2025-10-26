@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <string.h>
 
 #define MAX_CITIES 30
 #define MAX_NAME_SIZE 10
@@ -18,16 +19,16 @@ void distanceManagement(int cityCount,int cityId[],int distance[][MAX_CITIES],ch
 void addCityDistance(int cityCount,int distance[][MAX_CITIES]);
 void printCityDistance(int cityCount,int cityId[],int distance[][MAX_CITIES],char cityName[][MAX_NAME_SIZE]);
 void vehicaleManagement();
-int deliveryManagement(int cityCount,char cityName[][MAX_NAME_SIZE],int distance[][MAX_CITIES],int vehicaleDetails[][4],int deliveryCount,float deliveryRecodes[][12]);
-void calculation(int deliveryNumber,float deliveryRecodes[][12],int vehicaleDetails[][4]);
-void printBill(char cityNames[][MAX_NAME_SIZE],float deliverRecodes[][12],int deliveryNumber,int vehicaleDetails[][4]);
+int deliveryManagement(int cityCount,char cityName[][MAX_NAME_SIZE],int distance[][MAX_CITIES],int vehicaleDetails[][4],int deliveryCount,float deliveryRecodes[][13]);
+void calculation(int deliveryNumber,float deliveryRecodes[][13],int vehicaleDetails[][4]);
+void printBill(char cityNames[][MAX_NAME_SIZE],float deliverRecodes[][13],int deliveryNumber,int vehicaleDetails[][4]);
 
 int main()
 {
     int choice,cityId[MAX_CITIES]={},cityCount=0,distance[MAX_CITIES][MAX_CITIES]={};
     int vehicaleDetails[3][4]={{1000,30,60,12},{5000,40,50,6},{10000,80,45,4}};
     int deliveryCount=0;
-    float deliveryRecodes[MAX_RECODES][12]={};
+    float deliveryRecodes[MAX_RECODES][13]={};
     char cityNames[MAX_CITIES][MAX_NAME_SIZE]={};
 
     do{
@@ -264,7 +265,7 @@ void vehicaleManagement()
     printf("|Lorry|10000       |80              |45             |4                    |\n");
     printf("+-----+------------+----------------+---------------+---------------------+\n");
 }
-int deliveryManagement(int cityCount,char cityName[][MAX_NAME_SIZE],int distance[][MAX_CITIES],int vehicaleDetails[][4],int deliveryCount,float deliveryRecodes[][12])
+int deliveryManagement(int cityCount,char cityName[][MAX_NAME_SIZE],int distance[][MAX_CITIES],int vehicaleDetails[][4],int deliveryCount,float deliveryRecodes[][13])
 {
     int sourceCity,destinationCity,weight,vehicalType;
     printf("Enter Source city id : ");
@@ -335,7 +336,7 @@ int deliveryManagement(int cityCount,char cityName[][MAX_NAME_SIZE],int distance
     deliveryCount+=1;
     return deliveryCount;
 }
-void calculation(int deliveryNumber,float deliveryRecodes[][12],int vehicaleDetails[][4])
+void calculation(int deliveryNumber,float deliveryRecodes[][13],int vehicaleDetails[][4])
 {
     //Calc cost
     deliveryRecodes[deliveryNumber][5]=deliveryRecodes[deliveryNumber][4]*vehicaleDetails[(int)deliveryRecodes[deliveryNumber][3]][1]*(1+deliveryRecodes[deliveryNumber][2]/10000);
@@ -352,7 +353,7 @@ void calculation(int deliveryNumber,float deliveryRecodes[][12],int vehicaleDeta
     //Final charge
     deliveryRecodes[deliveryNumber][11]=deliveryRecodes[deliveryNumber][10]+deliveryRecodes[deliveryNumber][9];
 }
-void printBill(char cityNames[][MAX_NAME_SIZE],float deliverRecodes[][12],int deliveryNumber,int vehicaleDetails[][4])
+void printBill(char cityNames[][MAX_NAME_SIZE],float deliverRecodes[][13],int deliveryNumber,int vehicaleDetails[][4])
 {
     char vehicalType[3][6]={{"Van"},{"Truck"},{"Lorry"}};
     printf("\n=============================================================\n\n");
@@ -372,4 +373,27 @@ void printBill(char cityNames[][MAX_NAME_SIZE],float deliverRecodes[][12],int de
     printf("Customer Charge : %.2f LKR\n",deliverRecodes[deliveryNumber][11]);
     printf("Estimated Time : %.2f hours\n",deliverRecodes[deliveryNumber][6]);
     printf("\n=============================================================\n\n");
+}
+void printDeliveryRecodes(float deliverRecodes[][13],int deliveryCount,char cityNames[][MAX_NAME_SIZE])
+{
+    int count=0;
+    char vehicalType[3][6]={{"Van"},{"Truck"},{"Lorry"}};
+    char status[]={};
+    if(deliveryCount>50)
+    {
+        count=50;
+    }else{
+        count=deliveryCount;
+    }
+    printf("%-10s %-12s %-17s %-11s %-13s %-10s %-16s %-10s","Oder Num","Source city","Destination city","Weight(kg)","Vehicle Type","Distance","Bill Total(LKR)","Status");
+    for(int i=0;i<count;i++)
+    {
+        if(deliverRecodes[i][12]==0)
+        {
+            strcpy(status, "Pending");
+        }else{
+            strcpy(status, "Delivered");
+        }
+        printf("%-10d %-12s %-17s %-11.2f %-13s %-10.2f %-16.2f %-10s",i+1,cityNames[(int)deliverRecodes[i][0]],cityNames[(int)deliverRecodes[i][1]],deliverRecodes[i][2],vehicalType[(int)deliverRecodes[i][3]],deliverRecodes[i][4],deliverRecodes[i][11],status);
+    }
 }
