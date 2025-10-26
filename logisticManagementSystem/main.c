@@ -4,6 +4,7 @@
 
 #define MAX_CITIES 30
 #define MAX_NAME_SIZE 10
+#define MAX_RECODES 50
 
 //Functions
 void printMenu();
@@ -17,11 +18,13 @@ void distanceManagement(int cityCount,int cityId[],int distance[][MAX_CITIES],ch
 void addCityDistance(int cityCount,int distance[][MAX_CITIES]);
 void printCityDistance(int cityCount,int cityId[],int distance[][MAX_CITIES],char cityName[][MAX_NAME_SIZE]);
 void vehicaleManagement();
+int deliveryManagement(int cityCount,char cityName[][MAX_NAME_SIZE],int distance[][MAX_CITIES],int vehicaleDetails[][4],int deliveryCount,int deliveryRecodes[][12]);
 
 int main()
 {
     int choice,cityId[MAX_CITIES]={},cityCount=0,distance[MAX_CITIES][MAX_CITIES]={};
     int vehicaleDetails[3][4]={{1000,30,60,12},{5000,40,50,6},{10000,80,45,4}};
+    int deliveryCount=0,deliveryRecodes[MAX_RECODES][12]={};
     char cityNames[MAX_CITIES][MAX_NAME_SIZE]={};
 
     do{
@@ -35,7 +38,8 @@ int main()
                 distanceManagement(cityCount,cityId,distance,cityNames);break;
             case 3:
                 vehicaleManagement();break;
-            case 4:break;
+            case 4:
+                deliveryCount=deliveryManagement(cityCount,cityNames,distance,vehicaleDetails,deliveryCount,deliveryRecodes);break;
             case 5:break;
             case 6:break;
             case 7:break;
@@ -258,4 +262,69 @@ void vehicaleManagement()
     printf("+-----+------------+----------------+---------------+---------------------+\n");
     printf("|Lorry|10000       |80              |45             |4                    |\n");
     printf("+-----+------------+----------------+---------------+---------------------+\n");
+}
+int deliveryManagement(int cityCount,char cityName[][MAX_NAME_SIZE],int distance[][MAX_CITIES],int vehicaleDetails[][4],int deliveryCount,int deliveryRecodes[][12])
+{
+    int sourceCity,destinationCity,weight,vehicalType;
+    printf("Enter Source city id : ");
+    scanf("%d",&sourceCity);
+    if(sourceCity>=cityCount)
+    {
+        printf("\n    Invalid Input\n\n");
+        return deliveryCount;
+    }
+    printf("Enter Destination city id : ");
+    scanf("%d",&destinationCity);
+    if(destinationCity>=cityCount)
+    {
+        printf("\n    Invalid Input\n\n");
+        return deliveryCount;
+    }
+    if(sourceCity==destinationCity)
+    {
+        printf("Locations is same.we can't continue this oder!\n\n");
+        return deliveryCount;
+    }
+    if(distance[sourceCity][destinationCity]==0)
+    {
+        printf("You didn't enter cities distance.Please enter distance first.\n\n");
+        return deliveryCount;
+    }
+    printf("Enter the weight being transported (in Kg): ");
+    scanf("%d",&weight);
+    printf("\n==vehicle types==\n");
+    printf("1.Van\n2.Truck\n3.Lorry\n\n");
+    do{
+        printf("Enter vehicle type : ");
+        scanf("%d",&vehicalType);
+        if(vehicalType!=1||vehicalType!=2||vehicalType!=3)
+        {
+            printf("\n    Invalid Input\n\n");
+        }
+    }while(vehicalType!=1||vehicalType!=2||vehicalType!=3);
+    if(weight>vehicaleDetails[vehicalType-1][1])
+    {
+        printf("The entered weight cannot be transported by the given type�of�transport.we can't continue this oder!\n\n");
+    }
+    if(deliveryCount>=50)
+    {
+        for(int i=0;i<MAX_RECODES-1;i++)
+        {
+            for(int j=0;j<12;j++)
+            {
+                deliveryRecodes[i][j]=deliveryRecodes[i+1][j];
+            }
+        }
+            deliveryRecodes[49][0]=sourceCity;
+            deliveryRecodes[49][1]=destinationCity;
+            deliveryRecodes[49][2]=weight;
+            deliveryRecodes[49][3]=vehicalType;
+    }else{
+        deliveryRecodes[deliveryCount][0]=sourceCity;
+        deliveryRecodes[deliveryCount][1]=destinationCity;
+        deliveryRecodes[deliveryCount][2]=weight;
+        deliveryRecodes[deliveryCount][3]=vehicalType;
+    }
+    deliveryCount+=1;
+    return deliveryCount;
 }
