@@ -18,14 +18,15 @@ void distanceManagement(int cityCount,int cityId[],int distance[][MAX_CITIES],ch
 void addCityDistance(int cityCount,int distance[][MAX_CITIES]);
 void printCityDistance(int cityCount,int cityId[],int distance[][MAX_CITIES],char cityName[][MAX_NAME_SIZE]);
 void vehicaleManagement();
-int deliveryManagement(int cityCount,char cityName[][MAX_NAME_SIZE],int distance[][MAX_CITIES],int vehicaleDetails[][4],int deliveryCount,int deliveryRecodes[][12]);
-void calculation(int deliveryNumber,int deliveryRecodes[][12],int vehicaleDetails[][4]);
+int deliveryManagement(int cityCount,char cityName[][MAX_NAME_SIZE],int distance[][MAX_CITIES],int vehicaleDetails[][4],int deliveryCount,float deliveryRecodes[][12]);
+void calculation(int deliveryNumber,float deliveryRecodes[][12],int vehicaleDetails[][4]);
 
 int main()
 {
     int choice,cityId[MAX_CITIES]={},cityCount=0,distance[MAX_CITIES][MAX_CITIES]={};
     int vehicaleDetails[3][4]={{1000,30,60,12},{5000,40,50,6},{10000,80,45,4}};
-    int deliveryCount=0,deliveryRecodes[MAX_RECODES][12]={};
+    int deliveryCount=0;
+    float deliveryRecodes[MAX_RECODES][12]={};
     char cityNames[MAX_CITIES][MAX_NAME_SIZE]={};
 
     do{
@@ -262,7 +263,7 @@ void vehicaleManagement()
     printf("|Lorry|10000       |80              |45             |4                    |\n");
     printf("+-----+------------+----------------+---------------+---------------------+\n");
 }
-int deliveryManagement(int cityCount,char cityName[][MAX_NAME_SIZE],int distance[][MAX_CITIES],int vehicaleDetails[][4],int deliveryCount,int deliveryRecodes[][12])
+int deliveryManagement(int cityCount,char cityName[][MAX_NAME_SIZE],int distance[][MAX_CITIES],int vehicaleDetails[][4],int deliveryCount,float deliveryRecodes[][12])
 {
     int sourceCity,destinationCity,weight,vehicalType;
     printf("Enter Source city id : ");
@@ -317,28 +318,28 @@ int deliveryManagement(int cityCount,char cityName[][MAX_NAME_SIZE],int distance
             deliveryRecodes[49][0]=sourceCity;
             deliveryRecodes[49][1]=destinationCity;
             deliveryRecodes[49][2]=weight;
-            deliveryRecodes[49][3]=vehicalType;
+            deliveryRecodes[49][3]=vehicalType-1;
             deliveryRecodes[49][4]=distance[sourceCity-1][destinationCity-1];
             calculation(49,deliveryRecodes,vehicaleDetails);
     }else{
         deliveryRecodes[deliveryCount][0]=sourceCity;
         deliveryRecodes[deliveryCount][1]=destinationCity;
         deliveryRecodes[deliveryCount][2]=weight;
-        deliveryRecodes[deliveryCount][3]=vehicalType;
+        deliveryRecodes[deliveryCount][3]=vehicalType-1;
         deliveryRecodes[deliveryCount][4]=distance[sourceCity-1][destinationCity-1];
         calculation(deliveryCount,deliveryRecodes,vehicaleDetails);
     }
     deliveryCount+=1;
     return deliveryCount;
 }
-void calculation(int deliveryNumber,int deliveryRecodes[][12],int vehicaleDetails[][4])
+void calculation(int deliveryNumber,float deliveryRecodes[][12],int vehicaleDetails[][4])
 {
     //Calc cost
-    deliveryRecodes[deliveryNumber][5]=deliveryRecodes[deliveryNumber][4]*vehicaleDetails[deliveryRecodes[deliveryNumber][3]][1]*(1+deliveryRecodes[deliveryNumber][2]/10000);
+    deliveryRecodes[deliveryNumber][5]=deliveryRecodes[deliveryNumber][4]*vehicaleDetails[(int)deliveryRecodes[deliveryNumber][3]][1]*(1+deliveryRecodes[deliveryNumber][2]/10000);
     //Calc astimate time
-    deliveryRecodes[deliveryNumber][6]=deliveryRecodes[deliveryNumber][4]/vehicaleDetails[deliveryRecodes[deliveryNumber][3]][2];
+    deliveryRecodes[deliveryNumber][6]=deliveryRecodes[deliveryNumber][4]/vehicaleDetails[(int)deliveryRecodes[deliveryNumber][3]][2];
     //calc fuel consumption
-    deliveryRecodes[deliveryNumber][7]=deliveryRecodes[deliveryNumber][4]/vehicaleDetails[deliveryRecodes[deliveryNumber][3]][3];
+    deliveryRecodes[deliveryNumber][7]=deliveryRecodes[deliveryNumber][4]/vehicaleDetails[(int)deliveryRecodes[deliveryNumber][3]][3];
     //fuel cost
     deliveryRecodes[deliveryNumber][8]=deliveryRecodes[deliveryNumber][7]*310;
     //total operation cost
