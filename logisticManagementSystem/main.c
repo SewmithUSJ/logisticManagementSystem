@@ -349,3 +349,24 @@ void calculation(int deliveryNumber,float deliveryRecodes[][12],int vehicaleDeta
     //Final charge
     deliveryRecodes[deliveryNumber][11]=deliveryRecodes[deliveryNumber][10]+deliveryRecodes[deliveryNumber][9];
 }
+void printBill(char cityNames[][MAX_NAME_SIZE],int deliverRecodes[][12],int deliveryNumber,int vehicaleDetails[][4])
+{
+    char vehicalType[3][6]={{"Van"},{"Truck"},{"Lorry"}};
+    printf("\n=============================================================\n\n");
+    printf("DELIVERY COST ESTIMATION\n\n");
+    printf("-------------------------------------------------------------\n\n");
+    printf("From : %s\n",cityNames[deliverRecodes[deliveryNumber][0]-1]);
+    printf("To : %s\n",cityNames[deliverRecodes[deliveryNumber][1]-1]);
+    printf("Minimum Distance : %.0f km\n",deliverRecodes[deliveryNumber][4]);
+    printf("Vehicle : %s\n",vehicalType[deliverRecodes[deliveryNumber][3]]);
+    printf("Weight : %.0f kg\n\n",deliverRecodes[deliveryNumber][2]);
+    printf("-------------------------------------------------------------\n\n");
+    printf("Base Cost : %.0f * %d * ( 1 + %.0f/10000) = %.2f LKR\n",deliverRecodes[deliveryNumber][4],vehicaleDetails[(int)deliverRecodes[deliveryNumber][3]][1],deliverRecodes[deliveryNumber][2],deliverRecodes[deliveryNumber][5]);
+    printf("Fuel Used : %.2f L\n",deliverRecodes[deliveryNumber][7]);
+    printf("Fuel Cost : %.2f LKR\n",deliverRecodes[deliveryNumber][8]);
+    printf("Operational Cost : %.2f LKR\n",deliverRecodes[deliveryNumber][9]);
+    printf("Profit : %.2f LKR\n",deliverRecodes[deliveryNumber][10]);
+    printf("Customer Charge : %.2f LKR\n",deliverRecodes[deliveryNumber][11]);
+    printf("Estimated Time : %.2f hours\n",deliverRecodes[deliveryNumber][6]);
+    printf("\n=============================================================\n\n");
+}
