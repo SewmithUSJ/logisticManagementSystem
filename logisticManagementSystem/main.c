@@ -22,6 +22,8 @@ void vehicaleManagement();
 int deliveryManagement(int cityCount,char cityName[][MAX_NAME_SIZE],int distance[][MAX_CITIES],int vehicaleDetails[][4],int deliveryCount,float deliveryRecodes[][13]);
 void calculation(int deliveryNumber,float deliveryRecodes[][13],int vehicaleDetails[][4]);
 void printBill(char cityNames[][MAX_NAME_SIZE],float deliverRecodes[][13],int deliveryNumber,int vehicaleDetails[][4]);
+void printDeliveryRecodes(float deliverRecodes[][13],int deliveryCount,char cityNames[][MAX_NAME_SIZE]);
+void performanceReports(float deliveryRecodes[][13], int deliveryCount);
 
 int main()
 {
@@ -44,17 +46,16 @@ int main()
                 vehicaleManagement();break;
             case 4:
                 deliveryCount=deliveryManagement(cityCount,cityNames,distance,vehicaleDetails,deliveryCount,deliveryRecodes);break;
-            case 5:break;
-            case 6:break;
-            case 7:break;
-            case 8:break;
-            case 9:break;
-            case 10:
+            case 5:
+                printDeliveryRecodes(deliveryRecodes,deliveryCount,cityNames);break;
+            case 6:
+                performanceReports(deliveryRecodes,deliveryCount);break;
+            case 7:
                 printf("\n    Thank You!\n");break;
             default:
                 printf("\n    Invalid Input\n\n");
         }
-    }while(choice!=10);
+    }while(choice!=8);
     return 0;
 }
 
@@ -67,8 +68,7 @@ void printMenu()
     printf("4.Delivery Oder\n");
     printf("5.Delivery Records\n");
     printf("6.Performance Reports\n");
-    printf("7.File Handling\n");
-    printf("10.Exit\n\n");
+    printf("7.Exit\n\n");
     printf("======================================\n\n");
     printf("Enter your choice : ");
 }
