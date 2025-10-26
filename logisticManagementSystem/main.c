@@ -284,7 +284,7 @@ int deliveryManagement(int cityCount,char cityName[][MAX_NAME_SIZE],int distance
         printf("Locations is same.we can't continue this oder!\n\n");
         return deliveryCount;
     }
-    if(distance[sourceCity][destinationCity]==0)
+    if(distance[sourceCity-1][destinationCity-1]==0)
     {
         printf("You didn't enter cities distance.Please enter distance first.\n\n");
         return deliveryCount;
@@ -318,14 +318,14 @@ int deliveryManagement(int cityCount,char cityName[][MAX_NAME_SIZE],int distance
             deliveryRecodes[49][1]=destinationCity;
             deliveryRecodes[49][2]=weight;
             deliveryRecodes[49][3]=vehicalType;
-            deliveryRecodes[49][4]=distance[sourceCity][destinationCity];
+            deliveryRecodes[49][4]=distance[sourceCity-1][destinationCity-1];
             calculation(49,deliveryRecodes,vehicaleDetails);
     }else{
         deliveryRecodes[deliveryCount][0]=sourceCity;
         deliveryRecodes[deliveryCount][1]=destinationCity;
         deliveryRecodes[deliveryCount][2]=weight;
         deliveryRecodes[deliveryCount][3]=vehicalType;
-        deliveryRecodes[deliveryCount][4]=distance[sourceCity][destinationCity];
+        deliveryRecodes[deliveryCount][4]=distance[sourceCity-1][destinationCity-1];
         calculation(deliveryCount,deliveryRecodes,vehicaleDetails);
     }
     deliveryCount+=1;
