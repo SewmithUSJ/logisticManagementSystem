@@ -397,3 +397,55 @@ void printDeliveryRecodes(float deliverRecodes[][13],int deliveryCount,char city
         printf("%-10d %-12s %-17s %-11.2f %-13s %-10.2f %-16.2f %-10s",i+1,cityNames[(int)deliverRecodes[i][0]],cityNames[(int)deliverRecodes[i][1]],deliverRecodes[i][2],vehicalType[(int)deliverRecodes[i][3]],deliverRecodes[i][4],deliverRecodes[i][11],status);
     }
 }
+void performanceReports(float deliveryRecodes[][13], int deliveryCount)
+{
+    if (deliveryCount == 0)
+    {
+        printf("\nNo deliveries recorded yet!\n\n");
+        return;
+    }
+
+    float totalDistance = 0, totalTime = 0, totalRevenue = 0, totalProfit = 0;
+    float longestDistance = 0, shortestDistance = 999999;
+    int longestIndex = -1, shortestIndex = -1;
+
+    for (int i = 0; i < deliveryCount && i < MAX_RECODES; i++)
+    {
+        float dist = deliveryRecodes[i][4];
+        float profit = deliveryRecodes[i][10];
+        float charge = deliveryRecodes[i][11];
+        float time = deliveryRecodes[i][6];
+
+        totalDistance += dist;
+        totalTime += time;
+        totalRevenue += charge;
+        totalProfit += profit;
+
+        if (dist > longestDistance)
+        {
+            longestDistance = dist;
+            longestIndex = i;
+        }
+        if (dist < shortestDistance && dist > 0)
+        {
+            shortestDistance = dist;
+            shortestIndex = i;
+        }
+    }
+
+    float avgTime = totalTime / deliveryCount;
+
+    printf("\n=================== PERFORMANCE REPORTS ===================\n\n");
+    printf("Total Deliveries Completed : %d\n", deliveryCount);
+    printf("Total Distance Covered     : %.2f km\n", totalDistance);
+    printf("Average Delivery Time      : %.2f hours\n", avgTime);
+    printf("Total Revenue Earned       : %.2f LKR\n", totalRevenue);
+    printf("Total Profit               : %.2f LKR\n", totalProfit);
+
+    printf("\n-----------------------------------------------------------\n");
+    if (longestIndex != -1)
+        printf("Longest Route : Delivery #%d  (%.2f km)\n", longestIndex + 1, longestDistance);
+    if (shortestIndex != -1)
+        printf("Shortest Route: Delivery #%d  (%.2f km)\n", shortestIndex + 1, shortestDistance);
+    printf("===========================================================\n\n");
+}
