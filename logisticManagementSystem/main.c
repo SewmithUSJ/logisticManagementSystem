@@ -16,10 +16,12 @@ void nameStucture(char name[]);
 void distanceManagement(int cityCount,int cityId[],int distance[][MAX_CITIES],char cityName[][MAX_NAME_SIZE]);
 void addCityDistance(int cityCount,int distance[][MAX_CITIES]);
 void printCityDistance(int cityCount,int cityId[],int distance[][MAX_CITIES],char cityName[][MAX_NAME_SIZE]);
+void vehicaleManagement();
 
 int main()
 {
     int choice,cityId[MAX_CITIES]={},cityCount=0,distance[MAX_CITIES][MAX_CITIES]={};
+    int vehicaleDetails[3][4]={{1000,30,60,12},{5000,40,50,6},{10000,80,45,4}};
     char cityNames[MAX_CITIES][MAX_NAME_SIZE]={};
 
     do{
@@ -31,7 +33,8 @@ int main()
                 cityCount=cityManagement(cityId,cityCount,cityNames);break;
             case 2:
                 distanceManagement(cityCount,cityId,distance,cityNames);break;
-            case 3:break;
+            case 3:
+                vehicaleManagement();break;
             case 4:break;
             case 5:break;
             case 6:break;
@@ -243,4 +246,16 @@ void printCityDistance(int cityCount,int cityId[],int distance[][MAX_CITIES],cha
         printf("\n");
     }
     printCity(cityId,cityCount,cityName);
+}
+void vehicaleManagement()
+{
+    printf("+-----+------------+----------------+---------------+---------------------+\n");
+    printf("|Type |Capacity(kg)|Rate Per km(LKR)|Avg Speed(km/h)|Fuel Efficiency(km/l)|\n");
+    printf("+-----+------------+----------------+---------------+---------------------+\n");
+    printf("|Van  |1000        |30              |60             |12                   |\n");
+    printf("+-----+------------+----------------+---------------+---------------------+\n");
+    printf("|Truck|5000        |40              |50             |6                    |\n");
+    printf("+-----+------------+----------------+---------------+---------------------+\n");
+    printf("|Lorry|10000       |80              |45             |4                    |\n");
+    printf("+-----+------------+----------------+---------------+---------------------+\n");
 }
