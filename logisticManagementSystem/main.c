@@ -397,6 +397,14 @@ void printDeliveryRecodes(float deliverRecodes[][13],int deliveryCount,char city
         printf("%-10d %-12s %-17s %-11.2f %-13s %-10.2f %-16.2f %-10s",i+1,cityNames[(int)deliverRecodes[i][0]],cityNames[(int)deliverRecodes[i][1]],deliverRecodes[i][2],vehicalType[(int)deliverRecodes[i][3]],deliverRecodes[i][4],deliverRecodes[i][11],status);
     }
 }
+void transportStatus(float deliveryRecodes[][13])
+{
+    int id;
+    printf("Enter Complete delivery id : ");
+    scanf("%d",&id);
+    deliveryRecodes[id][12]=1;
+    printf("Delivery status update successfully!\n\n");
+}
 void performanceReports(float deliveryRecodes[][13], int deliveryCount)
 {
     if (deliveryCount == 0)
